@@ -11,10 +11,16 @@ import UIKit
 class ToDoListViewController: UITableViewController {
     
     var toDoArray = ["First","Second","Third"]
+    
+    // userdefault object creation
+    let defaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+       // retrieve assigned values to userdefaults
+        if let item = defaults.array(forKey: "ToDoArray") as? [String] {
+        toDoArray = item
+        }
     }
   //MARK - TableView Delegate Methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -44,6 +50,9 @@ class ToDoListViewController: UITableViewController {
         let action = UIAlertAction(title: "Add item", style: .default) { (action) in
             // what will happen once user clicks on add item button
             self.toDoArray.append(textField.text!)
+            // set default values
+            self.defaults.setValue(self.toDoArray, forKey: "ToDoArray")
+            
             self.tableView.reloadData()
             
         }
